@@ -1,0 +1,197 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 175.178.254.171(腾讯云服务)
+ Source Server Type    : MySQL
+ Source Server Version : 50738
+ Source Host           : 175.178.254.171:3306
+ Source Schema         : testMp
+
+ Target Server Type    : MySQL
+ Target Server Version : 50738
+ File Encoding         : 65001
+
+ Date: 01/07/2022 16:23:38
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for BATCH_JOB_EXECUTION
+-- ----------------------------
+DROP TABLE IF EXISTS `BATCH_JOB_EXECUTION`;
+CREATE TABLE `BATCH_JOB_EXECUTION`  (
+  `JOB_EXECUTION_ID` bigint(20) NOT NULL,
+  `VERSION` bigint(20) NULL DEFAULT NULL,
+  `JOB_INSTANCE_ID` bigint(20) NOT NULL,
+  `CREATE_TIME` datetime(0) NOT NULL,
+  `START_TIME` datetime(0) NULL DEFAULT NULL,
+  `END_TIME` datetime(0) NULL DEFAULT NULL,
+  `STATUS` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `EXIT_CODE` varchar(2500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `EXIT_MESSAGE` varchar(2500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `LAST_UPDATED` datetime(0) NULL DEFAULT NULL,
+  `JOB_CONFIGURATION_LOCATION` varchar(2500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  PRIMARY KEY (`JOB_EXECUTION_ID`) USING BTREE,
+  INDEX `JOB_INST_EXEC_FK`(`JOB_INSTANCE_ID`) USING BTREE,
+  CONSTRAINT `JOB_INST_EXEC_FK` FOREIGN KEY (`JOB_INSTANCE_ID`) REFERENCES `BATCH_JOB_INSTANCE` (`JOB_INSTANCE_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of BATCH_JOB_EXECUTION
+-- ----------------------------
+INSERT INTO `BATCH_JOB_EXECUTION` VALUES (2, 2, 2, '2022-06-28 14:27:31', '2022-06-28 14:27:31', '2022-06-28 14:27:37', 'COMPLETED', 'COMPLETED', '', '2022-06-28 14:27:37', NULL);
+
+-- ----------------------------
+-- Table structure for BATCH_JOB_EXECUTION_CONTEXT
+-- ----------------------------
+DROP TABLE IF EXISTS `BATCH_JOB_EXECUTION_CONTEXT`;
+CREATE TABLE `BATCH_JOB_EXECUTION_CONTEXT`  (
+  `JOB_EXECUTION_ID` bigint(20) NOT NULL,
+  `SHORT_CONTEXT` varchar(2500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `SERIALIZED_CONTEXT` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
+  PRIMARY KEY (`JOB_EXECUTION_ID`) USING BTREE,
+  CONSTRAINT `JOB_EXEC_CTX_FK` FOREIGN KEY (`JOB_EXECUTION_ID`) REFERENCES `BATCH_JOB_EXECUTION` (`JOB_EXECUTION_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of BATCH_JOB_EXECUTION_CONTEXT
+-- ----------------------------
+INSERT INTO `BATCH_JOB_EXECUTION_CONTEXT` VALUES (2, '{}', NULL);
+
+-- ----------------------------
+-- Table structure for BATCH_JOB_EXECUTION_PARAMS
+-- ----------------------------
+DROP TABLE IF EXISTS `BATCH_JOB_EXECUTION_PARAMS`;
+CREATE TABLE `BATCH_JOB_EXECUTION_PARAMS`  (
+  `JOB_EXECUTION_ID` bigint(20) NOT NULL,
+  `TYPE_CD` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `KEY_NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `STRING_VAL` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `DATE_VAL` datetime(0) NULL DEFAULT NULL,
+  `LONG_VAL` bigint(20) NULL DEFAULT NULL,
+  `DOUBLE_VAL` double NULL DEFAULT NULL,
+  `IDENTIFYING` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  INDEX `JOB_EXEC_PARAMS_FK`(`JOB_EXECUTION_ID`) USING BTREE,
+  CONSTRAINT `JOB_EXEC_PARAMS_FK` FOREIGN KEY (`JOB_EXECUTION_ID`) REFERENCES `BATCH_JOB_EXECUTION` (`JOB_EXECUTION_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of BATCH_JOB_EXECUTION_PARAMS
+-- ----------------------------
+INSERT INTO `BATCH_JOB_EXECUTION_PARAMS` VALUES (2, 'STRING', 'object', '', '1970-01-01 08:00:00', 0, 0, 'Y');
+
+-- ----------------------------
+-- Table structure for BATCH_JOB_EXECUTION_SEQ
+-- ----------------------------
+DROP TABLE IF EXISTS `BATCH_JOB_EXECUTION_SEQ`;
+CREATE TABLE `BATCH_JOB_EXECUTION_SEQ`  (
+  `ID` bigint(20) NOT NULL,
+  `UNIQUE_KEY` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  UNIQUE INDEX `UNIQUE_KEY_UN`(`UNIQUE_KEY`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of BATCH_JOB_EXECUTION_SEQ
+-- ----------------------------
+INSERT INTO `BATCH_JOB_EXECUTION_SEQ` VALUES (2, '0');
+
+-- ----------------------------
+-- Table structure for BATCH_JOB_INSTANCE
+-- ----------------------------
+DROP TABLE IF EXISTS `BATCH_JOB_INSTANCE`;
+CREATE TABLE `BATCH_JOB_INSTANCE`  (
+  `JOB_INSTANCE_ID` bigint(20) NOT NULL,
+  `VERSION` bigint(20) NULL DEFAULT NULL,
+  `JOB_NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `JOB_KEY` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`JOB_INSTANCE_ID`) USING BTREE,
+  UNIQUE INDEX `JOB_INST_UN`(`JOB_NAME`, `JOB_KEY`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of BATCH_JOB_INSTANCE
+-- ----------------------------
+INSERT INTO `BATCH_JOB_INSTANCE` VALUES (2, 0, 'userJob', '55f22336f04241b1514fe6a12ba8ba99');
+
+-- ----------------------------
+-- Table structure for BATCH_JOB_SEQ
+-- ----------------------------
+DROP TABLE IF EXISTS `BATCH_JOB_SEQ`;
+CREATE TABLE `BATCH_JOB_SEQ`  (
+  `ID` bigint(20) NOT NULL,
+  `UNIQUE_KEY` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  UNIQUE INDEX `UNIQUE_KEY_UN`(`UNIQUE_KEY`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of BATCH_JOB_SEQ
+-- ----------------------------
+INSERT INTO `BATCH_JOB_SEQ` VALUES (2, '0');
+
+-- ----------------------------
+-- Table structure for BATCH_STEP_EXECUTION
+-- ----------------------------
+DROP TABLE IF EXISTS `BATCH_STEP_EXECUTION`;
+CREATE TABLE `BATCH_STEP_EXECUTION`  (
+  `STEP_EXECUTION_ID` bigint(20) NOT NULL,
+  `VERSION` bigint(20) NOT NULL,
+  `STEP_NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `JOB_EXECUTION_ID` bigint(20) NOT NULL,
+  `START_TIME` datetime(0) NOT NULL,
+  `END_TIME` datetime(0) NULL DEFAULT NULL,
+  `STATUS` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `COMMIT_COUNT` bigint(20) NULL DEFAULT NULL,
+  `READ_COUNT` bigint(20) NULL DEFAULT NULL,
+  `FILTER_COUNT` bigint(20) NULL DEFAULT NULL,
+  `WRITE_COUNT` bigint(20) NULL DEFAULT NULL,
+  `READ_SKIP_COUNT` bigint(20) NULL DEFAULT NULL,
+  `WRITE_SKIP_COUNT` bigint(20) NULL DEFAULT NULL,
+  `PROCESS_SKIP_COUNT` bigint(20) NULL DEFAULT NULL,
+  `ROLLBACK_COUNT` bigint(20) NULL DEFAULT NULL,
+  `EXIT_CODE` varchar(2500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `EXIT_MESSAGE` varchar(2500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `LAST_UPDATED` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`STEP_EXECUTION_ID`) USING BTREE,
+  INDEX `JOB_EXEC_STEP_FK`(`JOB_EXECUTION_ID`) USING BTREE,
+  CONSTRAINT `JOB_EXEC_STEP_FK` FOREIGN KEY (`JOB_EXECUTION_ID`) REFERENCES `BATCH_JOB_EXECUTION` (`JOB_EXECUTION_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of BATCH_STEP_EXECUTION
+-- ----------------------------
+INSERT INTO `BATCH_STEP_EXECUTION` VALUES (2, 5, 'jobOperatorDemoStep', 2, '2022-06-28 14:27:33', '2022-06-28 14:27:36', 'COMPLETED', 3, 20, 0, 20, 0, 0, 0, 0, 'COMPLETED', '', '2022-06-28 14:27:36');
+
+-- ----------------------------
+-- Table structure for BATCH_STEP_EXECUTION_CONTEXT
+-- ----------------------------
+DROP TABLE IF EXISTS `BATCH_STEP_EXECUTION_CONTEXT`;
+CREATE TABLE `BATCH_STEP_EXECUTION_CONTEXT`  (
+  `STEP_EXECUTION_ID` bigint(20) NOT NULL,
+  `SHORT_CONTEXT` varchar(2500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `SERIALIZED_CONTEXT` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
+  PRIMARY KEY (`STEP_EXECUTION_ID`) USING BTREE,
+  CONSTRAINT `STEP_EXEC_CTX_FK` FOREIGN KEY (`STEP_EXECUTION_ID`) REFERENCES `BATCH_STEP_EXECUTION` (`STEP_EXECUTION_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of BATCH_STEP_EXECUTION_CONTEXT
+-- ----------------------------
+INSERT INTO `BATCH_STEP_EXECUTION_CONTEXT` VALUES (2, '{\"batch.taskletType\":\"org.springframework.batch.core.step.item.ChunkOrientedTasklet\",\"FlatFileItemReader.read.count\":21,\"batch.stepType\":\"org.springframework.batch.core.step.tasklet.TaskletStep\"}', NULL);
+
+-- ----------------------------
+-- Table structure for BATCH_STEP_EXECUTION_SEQ
+-- ----------------------------
+DROP TABLE IF EXISTS `BATCH_STEP_EXECUTION_SEQ`;
+CREATE TABLE `BATCH_STEP_EXECUTION_SEQ`  (
+  `ID` bigint(20) NOT NULL,
+  `UNIQUE_KEY` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  UNIQUE INDEX `UNIQUE_KEY_UN`(`UNIQUE_KEY`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of BATCH_STEP_EXECUTION_SEQ
+-- ----------------------------
+
+SET FOREIGN_KEY_CHECKS = 1;
