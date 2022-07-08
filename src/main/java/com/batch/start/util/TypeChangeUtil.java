@@ -1,5 +1,7 @@
 package com.batch.start.util;
 
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +12,7 @@ import java.util.Date;
  * @author zhang yueqian
  * @date 2022-7-4 15:16
  */
+@Component
 public  class TypeChangeUtil {
 
     private TypeChangeUtil() {

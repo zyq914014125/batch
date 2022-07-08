@@ -27,5 +27,9 @@ entity:
   package:
     path: com.batch.start.entity
 
+#启动batchTable注解
+batch:
+   batchTable: true
+
 
 

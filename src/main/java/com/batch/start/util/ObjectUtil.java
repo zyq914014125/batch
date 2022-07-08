@@ -1,6 +1,7 @@
 package com.batch.start.util;
 
 import org.reflections.Reflections;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import java.util.Set;
  * @author zhang yueqian
  * @date 2022-7-7 18:05
  */
-
+@Component
 public class ObjectUtil {
     private ObjectUtil() {
     }

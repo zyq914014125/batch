@@ -54,6 +54,10 @@ public class JobLuncherConfiguration<T> implements ApplicationContextAware {
 
     }
 
+    /**
+     * 生成job对象，此job对象为最简Job,后续可自定义Job对象与step对象，仅需重写job()与step()即可
+     * @return Job
+     */
     public Job job() {
         return jobBuilderFactory.get(jobName)
                 .incrementer(new RunIdIncrementer())
