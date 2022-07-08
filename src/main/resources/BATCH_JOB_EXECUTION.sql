@@ -1,19 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 175.178.254.171(腾讯云服务)
- Source Server Type    : MySQL
- Source Server Version : 50738
- Source Host           : 175.178.254.171:3306
- Source Schema         : testMp
-
- Target Server Type    : MySQL
- Target Server Version : 50738
- File Encoding         : 65001
-
- Date: 01/07/2022 16:23:38
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 

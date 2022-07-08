@@ -1,5 +1,6 @@
-package com.batch.demo.entity;
+package com.batch.start.entity;
 
+import com.batch.start.util.BatchTable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@BatchTable("user")
 public class User  {
     private String  name;
     private BigDecimal id;
